@@ -110,6 +110,8 @@ export enum TableName {
   SecretVersionTag = "secret_version_tag_junction",
   SecretVersionV2Tag = "secret_version_v2_tag_junction",
   SecretRotationOutputV2 = "secret_rotation_output_v2",
+  // Consumer Secrets
+  ConsumerSecret = "consumer_secrets",
   // KMS Service
   KmsServerRootConfig = "kms_root_config",
   KmsKey = "kms_keys",
@@ -173,6 +175,10 @@ export enum SecretKeyEncoding {
 export enum SecretType {
   Shared = "shared",
   Personal = "personal"
+}
+
+export enum ConsumerSecretEncryptionAlgo {
+  NaClBox = "nacl-box"
 }
 
 export enum ProjectVersion {

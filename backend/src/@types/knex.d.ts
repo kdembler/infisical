@@ -59,6 +59,9 @@ import {
   TCertificateTemplates,
   TCertificateTemplatesInsert,
   TCertificateTemplatesUpdate,
+  TConsumerSecrets,
+  TConsumerSecretsInsert,
+  TConsumerSecretsUpdate,
   TDynamicSecretLeases,
   TDynamicSecretLeasesInsert,
   TDynamicSecretLeasesUpdate,
@@ -613,6 +616,12 @@ declare module "knex/types/tables" {
       TIdentityProjectAdditionalPrivilege,
       TIdentityProjectAdditionalPrivilegeInsert,
       TIdentityProjectAdditionalPrivilegeUpdate
+    >;
+
+    [TableName.ConsumerSecret]: KnexOriginal.CompositeTableType<
+      TConsumerSecrets,
+      TConsumerSecretsInsert,
+      TConsumerSecretsUpdate
     >;
 
     [TableName.AccessApprovalPolicy]: KnexOriginal.CompositeTableType<
