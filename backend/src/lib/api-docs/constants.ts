@@ -1438,3 +1438,31 @@ export const KMS = {
     ciphertext: "The ciphertext to be decrypted (base64 encoded)."
   }
 };
+
+export const CONSUMER_SECRETS = {
+  LIST: {
+    orgId: "The ID of the organization to list consumer secrets from."
+  },
+  GET: {
+    id: "The ID of the consumer secret to get."
+  },
+  CREATE: {
+    orgId: "The ID of the organization to create the consumer secret in.",
+    usernameCiphertext: "The ciphertext of the username.",
+    usernameNonce: "The nonce of the username.",
+    passwordCiphertext: "The ciphertext of the password.",
+    passwordNonce: "The nonce of the password.",
+    algorithm: "The algorithm used to encrypt the username and password."
+  },
+  UPDATE: {
+    id: "The ID of the consumer secret to update.",
+    usernameCiphertext: "The ciphertext of the username.",
+    usernameNonce: "The nonce of the username.",
+    passwordCiphertext: "The ciphertext of the password.",
+    passwordNonce: "The nonce of the password.",
+    algorithm: "The algorithm used to encrypt the username and password."
+  },
+  DELETE: {
+    id: "The ID of the consumer secret to delete."
+  }
+} as const;

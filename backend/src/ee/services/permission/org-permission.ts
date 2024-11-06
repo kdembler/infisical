@@ -1,4 +1,4 @@
-import { AbilityBuilder, createMongoAbility, MongoAbility } from "@casl/ability";
+import { AbilityBuilder, createMongoAbility, ForcedSubject, MongoAbility } from "@casl/ability";
 
 export enum OrgPermissionActions {
   Read = "read",
@@ -26,8 +26,13 @@ export enum OrgPermissionSubjects {
   Identity = "identity",
   Kms = "kms",
   AdminConsole = "organization-admin-console",
-  AuditLogs = "audit-logs"
+  AuditLogs = "audit-logs",
+  ConsumerSecret = "consumer-secret"
 }
+
+export type ConsumerSecretSubjectFields = {
+  userId: string;
+};
 
 export type OrgPermissionSet =
   | [OrgPermissionActions.Read, OrgPermissionSubjects.Workspace]
@@ -45,6 +50,13 @@ export type OrgPermissionSet =
   | [OrgPermissionActions, OrgPermissionSubjects.Identity]
   | [OrgPermissionActions, OrgPermissionSubjects.Kms]
   | [OrgPermissionActions, OrgPermissionSubjects.AuditLogs]
+  | [
+      OrgPermissionActions,
+      (
+        | OrgPermissionSubjects.ConsumerSecret
+        | (ForcedSubject<OrgPermissionSubjects.ConsumerSecret> & ConsumerSecretSubjectFields)
+      )
+    ]
   | [OrgPermissionAdminConsoleAction, OrgPermissionSubjects.AdminConsole];
 
 const buildAdminPermission = () => {
@@ -118,6 +130,8 @@ const buildAdminPermission = () => {
   can(OrgPermissionActions.Edit, OrgPermissionSubjects.AuditLogs);
   can(OrgPermissionActions.Delete, OrgPermissionSubjects.AuditLogs);
 
+  can(OrgPermissionActions.Create, OrgPermissionSubjects.ConsumerSecret);
+
   can(OrgPermissionAdminConsoleAction.AccessAllProjects, OrgPermissionSubjects.AdminConsole);
 
   return rules;
@@ -146,6 +160,8 @@ const buildMemberPermission = () => {
   can(OrgPermissionActions.Create, OrgPermissionSubjects.Identity);
   can(OrgPermissionActions.Edit, OrgPermissionSubjects.Identity);
   can(OrgPermissionActions.Delete, OrgPermissionSubjects.Identity);
+
+  can(OrgPermissionActions.Create, OrgPermissionSubjects.ConsumerSecret);
 
   can(OrgPermissionActions.Read, OrgPermissionSubjects.AuditLogs);
 
