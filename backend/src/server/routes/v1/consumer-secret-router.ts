@@ -23,7 +23,7 @@ export const registerConsumerSecretRouter = async (server: FastifyZodProvider) =
         }
       ],
       querystring: z.object({
-        orgId: z.string().trim().describe(CONSUMER_SECRETS.LIST.orgId)
+        orgId: z.string().uuid().trim().describe(CONSUMER_SECRETS.LIST.orgId)
       }),
       response: {
         200: z.object({
@@ -61,7 +61,7 @@ export const registerConsumerSecretRouter = async (server: FastifyZodProvider) =
         }
       ],
       params: z.object({
-        id: z.string().trim().describe(CONSUMER_SECRETS.GET.id)
+        id: z.string().uuid().trim().describe(CONSUMER_SECRETS.GET.id)
       }),
       response: {
         200: z.object({
@@ -107,7 +107,7 @@ export const registerConsumerSecretRouter = async (server: FastifyZodProvider) =
         algorithm: z.string().trim().describe(CONSUMER_SECRETS.CREATE.algorithm)
       }),
       querystring: z.object({
-        orgId: z.string().trim().describe(CONSUMER_SECRETS.CREATE.orgId)
+        orgId: z.string().uuid().trim().describe(CONSUMER_SECRETS.CREATE.orgId)
       }),
       response: {
         200: z.object({
@@ -151,7 +151,7 @@ export const registerConsumerSecretRouter = async (server: FastifyZodProvider) =
         }
       ],
       params: z.object({
-        id: z.string().trim().describe(CONSUMER_SECRETS.UPDATE.id)
+        id: z.string().uuid().trim().describe(CONSUMER_SECRETS.UPDATE.id)
       }),
       body: z.object({
         usernameCiphertext: z.string().optional().describe(CONSUMER_SECRETS.UPDATE.usernameCiphertext),
@@ -203,7 +203,7 @@ export const registerConsumerSecretRouter = async (server: FastifyZodProvider) =
         }
       ],
       params: z.object({
-        id: z.string().trim().describe(CONSUMER_SECRETS.DELETE.id)
+        id: z.string().uuid().trim().describe(CONSUMER_SECRETS.DELETE.id)
       }),
       response: {
         200: z.object({
