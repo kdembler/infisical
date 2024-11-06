@@ -99,6 +99,8 @@ import { certificateTemplateDALFactory } from "@app/services/certificate-templat
 import { certificateTemplateEstConfigDALFactory } from "@app/services/certificate-template/certificate-template-est-config-dal";
 import { certificateTemplateServiceFactory } from "@app/services/certificate-template/certificate-template-service";
 import { cmekServiceFactory } from "@app/services/cmek/cmek-service";
+import { consumerSecretDALFactory } from "@app/services/consumer-secret/consumer-secret-dal";
+import { consumerSecretServiceFactory } from "@app/services/consumer-secret/consumer-secret-service";
 import { externalGroupOrgRoleMappingDALFactory } from "@app/services/external-group-org-role-mapping/external-group-org-role-mapping-dal";
 import { externalGroupOrgRoleMappingServiceFactory } from "@app/services/external-group-org-role-mapping/external-group-org-role-mapping-service";
 import { externalMigrationQueueFactory } from "@app/services/external-migration/external-migration-queue";
@@ -264,6 +266,8 @@ export const registerRoutes = async (
   const secretV2BridgeDAL = secretV2BridgeDALFactory(db);
   const secretVersionV2BridgeDAL = secretVersionV2BridgeDALFactory(db);
   const secretVersionTagV2BridgeDAL = secretVersionV2TagBridgeDALFactory(db);
+
+  const consumerSecretDAL = consumerSecretDALFactory(db);
 
   const integrationDAL = integrationDALFactory(db);
   const integrationAuthDAL = integrationAuthDALFactory(db);
@@ -1018,6 +1022,11 @@ export const registerRoutes = async (
     secretV2BridgeDAL
   });
 
+  const consumerSecretService = consumerSecretServiceFactory({
+    consumerSecretDAL,
+    permissionService
+  });
+
   const integrationService = integrationServiceFactory({
     permissionService,
     folderDAL,
@@ -1286,6 +1295,7 @@ export const registerRoutes = async (
     folder: folderService,
     secretImport: secretImportService,
     projectBot: projectBotService,
+    consumerSecret: consumerSecretService,
     integration: integrationService,
     integrationAuth: integrationAuthService,
     webhook: webhookService,

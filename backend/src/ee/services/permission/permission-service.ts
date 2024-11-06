@@ -19,7 +19,14 @@ import { TProjectDALFactory } from "@app/services/project/project-dal";
 import { TProjectRoleDALFactory } from "@app/services/project-role/project-role-dal";
 import { TServiceTokenDALFactory } from "@app/services/service-token/service-token-dal";
 
-import { orgAdminPermissions, orgMemberPermissions, orgNoAccessPermissions, OrgPermissionSet } from "./org-permission";
+import {
+  orgAdminPermissions,
+  orgMemberPermissions,
+  orgNoAccessPermissions,
+  OrgPermissionActions,
+  OrgPermissionSet,
+  OrgPermissionSubjects
+} from "./org-permission";
 import { TPermissionDALFactory } from "./permission-dal";
 import { validateOrgSSO } from "./permission-fns";
 import { TBuildOrgPermissionDTO, TBuildProjectPermissionDTO } from "./permission-service-types";
@@ -132,12 +139,27 @@ export const permissionServiceFactory = ({
 
     validateOrgSSO(authMethod, membership.orgAuthEnforced);
 
-    const finalPolicyRoles = [{ role: membership.role, permissions: membership.permissions }].concat(
+    const customGroupRoles =
       membership?.groups?.map(({ role, customRolePermission }) => ({
         role,
         permissions: customRolePermission
-      })) || []
-    );
+      })) || [];
+
+    const consumerSecretsRole: TBuildOrgPermissionDTO[number] = {
+      role: OrgMembershipRole.Custom,
+      permissions: [
+        [OrgPermissionActions.Read, OrgPermissionSubjects.ConsumerSecret, { userId }],
+        [OrgPermissionActions.Edit, OrgPermissionSubjects.ConsumerSecret, { userId }],
+        [OrgPermissionActions.Delete, OrgPermissionSubjects.ConsumerSecret, { userId }]
+      ]
+    };
+
+    const finalPolicyRoles = [
+      { role: membership.role, permissions: membership.permissions },
+      ...customGroupRoles,
+      consumerSecretsRole
+    ];
+
     return { permission: buildOrgPermission(finalPolicyRoles), membership };
   };
 
