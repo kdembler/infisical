@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { createNotification } from "@app/components/notifications";
-import { Button } from "@app/components/v2";
+import { Button, ModalClose } from "@app/components/v2";
 import { useOrganization } from "@app/context";
 import { useCreateConsumerSecret } from "@app/hooks/api/consumerSecrets/mutations";
 import { type TCreateConsumerSecretRawDTO } from "@app/hooks/api/consumerSecrets/types";
@@ -63,9 +63,16 @@ export const AddUserSecretForm: FC<Props> = ({ onSuccess }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
       <UserSecretFormFields register={register} errors={errors} />
-      <Button type="submit" colorSchema="primary" className="ml-auto" isLoading={isSubmitting}>
-        Create User Secret
-      </Button>
+      <div className="flex gap-4">
+        <Button type="submit" colorSchema="primary" isLoading={isSubmitting}>
+          Create User Secret
+        </Button>
+        <ModalClose asChild>
+          <Button variant="plain" colorSchema="secondary" onClick={onSuccess}>
+            Cancel
+          </Button>
+        </ModalClose>
+      </div>
     </form>
   );
 };

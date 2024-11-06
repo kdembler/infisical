@@ -21,7 +21,7 @@ export const EditUserSecretModal: FC<Props> = ({ popUp, handlePopUpToggle }) => 
         handlePopUpToggle("editUserSecret", isOpen);
       }}
     >
-      <ModalContent title="Edit User Secret" subTitle="Update your stored secret">
+      <ModalContent title="Edit user secret" subTitle="Update your stored secret">
         {secret && (
           <EditUserSecretForm
             secret={secret}

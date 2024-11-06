@@ -779,7 +779,7 @@ export const AppLayout = ({ children }: LayoutProps) => {
                         <a>
                           <MenuItem
                             isSelected={router.asPath === `/org/${currentOrg?.id}/user-secrets`}
-                            icon="system-outline-96-groups"
+                            icon="system-outline-90-lock-closed"
                           >
                             User Secrets
                           </MenuItem>

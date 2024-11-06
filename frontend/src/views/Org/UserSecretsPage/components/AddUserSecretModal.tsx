@@ -21,7 +21,10 @@ export const AddUserSecretModal: FC<Props> = ({ popUp, handlePopUpToggle }) => {
         handlePopUpToggle("createUserSecret", isOpen);
       }}
     >
-      <ModalContent title="Add New User Secret" subTitle="Create a new secret to store securely">
+      <ModalContent
+        title="Add a new user secret"
+        subTitle="Create a new personal secret to store securely"
+      >
         <AddUserSecretForm
           onSuccess={() => {
             handlePopUpToggle("createUserSecret", false);
