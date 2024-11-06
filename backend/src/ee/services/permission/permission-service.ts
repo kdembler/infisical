@@ -139,25 +139,30 @@ export const permissionServiceFactory = ({
 
     validateOrgSSO(authMethod, membership.orgAuthEnforced);
 
-    const customGroupRoles =
+    const customGroupsRoles =
       membership?.groups?.map(({ role, customRolePermission }) => ({
         role,
         permissions: customRolePermission
       })) || [];
 
-    const consumerSecretsRole: TBuildOrgPermissionDTO[number] = {
-      role: OrgMembershipRole.Custom,
-      permissions: [
-        [OrgPermissionActions.Read, OrgPermissionSubjects.ConsumerSecret, { userId }],
-        [OrgPermissionActions.Edit, OrgPermissionSubjects.ConsumerSecret, { userId }],
-        [OrgPermissionActions.Delete, OrgPermissionSubjects.ConsumerSecret, { userId }]
-      ]
-    };
+    const consumerSecretsRoles: TBuildOrgPermissionDTO =
+      membership.role === OrgMembershipRole.Admin || membership.role === OrgMembershipRole.Member
+        ? [
+            {
+              role: OrgMembershipRole.Custom,
+              permissions: [
+                [OrgPermissionActions.Read, OrgPermissionSubjects.ConsumerSecret, { userId }],
+                [OrgPermissionActions.Edit, OrgPermissionSubjects.ConsumerSecret, { userId }],
+                [OrgPermissionActions.Delete, OrgPermissionSubjects.ConsumerSecret, { userId }]
+              ]
+            }
+          ]
+        : [];
 
     const finalPolicyRoles = [
       { role: membership.role, permissions: membership.permissions },
-      ...customGroupRoles,
-      consumerSecretsRole
+      ...customGroupsRoles,
+      ...consumerSecretsRoles
     ];
 
     return { permission: buildOrgPermission(finalPolicyRoles), membership };
