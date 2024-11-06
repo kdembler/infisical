@@ -31,8 +31,7 @@ export const UserSecretsRow: FC<Props> = ({ row, handlePopUpOpen }) => {
       <Td>
         <div className="flex justify-end gap-2">
           <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={() => {
               handlePopUpOpen("editUserSecret", row);
             }}
             variant="plain"
@@ -41,8 +40,7 @@ export const UserSecretsRow: FC<Props> = ({ row, handlePopUpOpen }) => {
             <FontAwesomeIcon icon={faEdit} />
           </IconButton>
           <IconButton
-            onClick={(e) => {
-              e.stopPropagation();
+            onClick={() => {
               handlePopUpOpen("deleteConsumerSecretConfirmation", {
                 name: row.username,
                 id: row.id
