@@ -30,7 +30,7 @@ export const consumerSecretDALFactory = (db: TDbClient) => {
       const consumerSecrets = await db
         .replicaNode()(TableName.ConsumerSecret)
         .where({ userId, orgId })
-        .orderBy("id", "asc");
+        .orderBy("createdAt", "desc");
       return consumerSecrets;
     } catch (error) {
       throw new DatabaseError({ error, name: "get all consumer secrets" });
