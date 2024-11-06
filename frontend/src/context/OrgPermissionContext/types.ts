@@ -1,4 +1,4 @@
-import { MongoAbility } from "@casl/ability";
+import { ForcedSubject, MongoAbility } from "@casl/ability";
 
 export enum OrgPermissionActions {
   Read = "read",
@@ -22,12 +22,17 @@ export enum OrgPermissionSubjects {
   Identity = "identity",
   Kms = "kms",
   AdminConsole = "organization-admin-console",
-  AuditLogs = "audit-logs"
+  AuditLogs = "audit-logs",
+  ConsumerSecret = "consumer-secret"
 }
 
 export enum OrgPermissionAdminConsoleAction {
   AccessAllProjects = "access-all-projects"
 }
+
+export type ConsumerSecretSubjectFields = {
+  userId: string;
+};
 
 export type OrgPermissionSet =
   | [OrgPermissionActions.Create, OrgPermissionSubjects.Workspace]
@@ -45,6 +50,13 @@ export type OrgPermissionSet =
   | [OrgPermissionActions, OrgPermissionSubjects.Identity]
   | [OrgPermissionActions, OrgPermissionSubjects.Kms]
   | [OrgPermissionAdminConsoleAction, OrgPermissionSubjects.AdminConsole]
-  | [OrgPermissionActions, OrgPermissionSubjects.AuditLogs];
+  | [OrgPermissionActions, OrgPermissionSubjects.AuditLogs]
+  | [
+      OrgPermissionActions,
+      (
+        | OrgPermissionSubjects.ConsumerSecret
+        | (ForcedSubject<OrgPermissionSubjects.ConsumerSecret> & ConsumerSecretSubjectFields)
+      )
+    ];
 
 export type TOrgPermission = MongoAbility<OrgPermissionSet>;
